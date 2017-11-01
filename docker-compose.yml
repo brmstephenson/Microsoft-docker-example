@@ -1,0 +1,23 @@
+version: "3"
+services:
+  client:
+    build: angular-example
+    ports:
+      - "4200:4200"
+      - "9876:9876"
+    volumes:
+      - ./angular-example:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+        - web
+  web:
+    build: dotnet-mvc-example
+    ports:
+        - "8000:80"
+    depends_on:
+        - db
+  db:
+    image: "microsoft/mssql-server-linux"
+    environment:
+        SA_PASSWORD: "ac@mPlexPWd"
+        ACCEPT_EULA: "Y"
