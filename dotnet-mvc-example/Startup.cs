@@ -39,6 +39,17 @@ namespace dotnet_mvc_example
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddCors(options => {
+                options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                });
+            });
+            
             services.AddMvc();
         }
 
@@ -58,6 +69,8 @@ namespace dotnet_mvc_example
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseCors("AllowAllOrigins");
 
             app.UseMvc(routes =>
             {
